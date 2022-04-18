@@ -1,6 +1,9 @@
-const serv = require('http');
+const http = require('http');
 const fs = require('fs');
-const port = 9000;
+var nStatic = require('node-static');
+
+var fileServer = new nStatic.Server('./public');
+
 
 function serverResponse(req, res){
     console.log(req.url);
@@ -18,13 +21,15 @@ function serverResponse(req, res){
     });
 }
 
-const net = serv.createServer(serverResponse);
 
-net.listen(port, function(error){
-    if(error){
-        console.log(error);
+const app = http.createServer(serverResponse);
+
+app.listen(5000, function(err){
+    if(err){
+        console.error('Error Occurrd!');
+        return;
     }
     else{
-        console.log('Server is running at port : ', port);
+        console.log('Serving is running fine!');
     }
-});
+})
